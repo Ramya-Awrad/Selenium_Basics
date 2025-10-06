@@ -12,24 +12,25 @@ service_obj = Service("C:/Users/RAMYA AWRAD/Documents/chromedriver-win64/chromed
 
 # Create WebDriver instance
 driver = webdriver.Chrome(service=service_obj)
-
 driver.maximize_window()
-driver.get(URL)
+try: 
+    driver.get(URL)
 
-#enter login details 
-driver.find_element(By.ID, "username").send_keys("student")
-driver.find_element(By.ID, "password").send_keys("Password123")
-driver.find_element(By.ID, "submit").click()
+    #enter login details 
+    driver.find_element(By.ID, "username").send_keys("student")
+    driver.find_element(By.ID, "password").send_keys("Password123")
+    driver.find_element(By.ID, "submit").click()
 
-time.sleep(5)
+    time.sleep(5)
 
-#check in if login success
-if "logged-in-successfully" in driver.current_url:
-    print("login successfull, test passed")
-else:
-    print("login failed, Test failed")
+    #assertion 
+    assert "logged-in-successfully" in driver.current_url, "Login failed"
 
-driver.quit()
+except AssertionError as a:
+    print("test failed")
+
+finally:
+    driver.quit()
 
 
 
